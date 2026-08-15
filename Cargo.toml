@@ -1,0 +1,17 @@
+[workspace]
+resolver = "2"
+members = ["weka", "ctriangle-sys"]
+
+[workspace.package]
+edition = "2021"
+license = "MIT"
+repository = "https://github.com/TomSimpsonNZ/weka"
+
+[profile.bench]
+debug = true
+lto = "fat"
+codegen-units = 1
+
+[profile.release]
+lto = "fat"
+codegen-units = 1

@@ -1,0 +1,49 @@
+[package]
+name = "weka"
+version = "0.1.0"
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+description = "Pure-Rust port of Shewchuk's Triangle, scoped to FEA mesh generation"
+readme = "README.md"
+keywords = ["mesh", "delaunay", "triangulation", "fea", "geometry"]
+categories = ["mathematics", "science"]
+
+# The published crate ships standalone. The differential tests and benchmark
+# validate against the bundled C "Triangle" oracle (`ctriangle-sys`), which
+# only exists in the source workspace, so they are not part of the package.
+# They keep working locally regardless of this list.
+exclude = [
+    "tests/apoly_diff.rs",
+    "tests/cdt_diff.rs",
+    "tests/delaunay_diff.rs",
+    "tests/p7_diff.rs",
+    "tests/quality_diff.rs",
+    "tests/region_diff.rs",
+    "tests/debug_reconstruct.rs",
+    "tests/debug_subseg.rs",
+    "benches/delaunay_bench.rs",
+]
+
+[dependencies]
+# Used only for the rare deepest exact-arithmetic stage of the incircle predicate
+# (a faithful Rust port of Shewchuk's predicates); also used as a test oracle.
+robust = "1.1"
+
+[dev-dependencies]
+ctriangle-sys = { path = "../ctriangle-sys" }
+rand = "0.8"
+rand_chacha = "0.3"
+criterion = "0.5"
+
+[features]
+default = []
+# Enables the differential benchmark against the bundled C oracle. Only usable
+# in the source workspace (where `ctriangle-sys` is present); run it with
+# `cargo bench --features oracle`.
+oracle = []
+
+[[bench]]
+name = "delaunay_bench"
+harness = false
+required-features = ["oracle"]

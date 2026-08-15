@@ -1,0 +1,3 @@
+[submodule "triangle"]
+	path = triangle
+	url = git@github.com:libigl/triangle.git

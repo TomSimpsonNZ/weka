@@ -5,5 +5,10 @@ edition.workspace = true
 license.workspace = true
 description = "FFI bindings to Shewchuk's Triangle C library (test/bench oracle for weka)"
 
+# Never publish. This crate compiles the C sources from the `triangle` git
+# submodule, which is not vendored into any package tarball, so a published
+# version could not build.
+publish = false
+
 [build-dependencies]
 cc = "1.0"
